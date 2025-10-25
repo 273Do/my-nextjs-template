@@ -18,5 +18,5 @@ RUN node --version && \
   git --version && \
   lefthook version
 
-EXPOSE 3000
+EXPOSE 3000 6006
 

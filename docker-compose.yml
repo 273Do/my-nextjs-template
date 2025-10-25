@@ -6,6 +6,7 @@ services:
     container_name: nextjs-template
     ports:
       - "3000:3000"
+      - "6006:6006"
     volumes:
       # Mount source code
       - .:/app

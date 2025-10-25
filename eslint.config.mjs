@@ -1,3 +1,5 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -103,6 +105,10 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    extends: [...storybook.configs["flat/recommended"]],
+    files: ["**/*.stories.{js,jsx,ts,tsx,mjs,cjs}"],
+  },
+  {
     files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       "better-tailwindcss": eslintPluginBetterTailwindcss,
@@ -139,6 +145,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    ".storybook/**",
+    "storybook-static/**",
   ]),
   // Prettierと競合するESLintルールを無効化
   // eslintConfigPrettier,
