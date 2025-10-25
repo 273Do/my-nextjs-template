@@ -1,319 +1,189 @@
-# Next.js の環境を構築するためのテンプレート
+# Next.js テンプレート
+
+モダンなWebアプリケーション開発のためのNext.js 16テンプレート。TypeScript、TailwindCSS、ESLint、Prettier、Vitest、Storybook、Lefthookなど、開発に必要なツールが事前に設定されています。
+
+## 特徴
+
+- ⚡️ **Next.js 16** (App Router) + React 19 + TypeScript
+- 🎨 **TailwindCSS 4** - 最新のユーティリティファーストCSS
+- ✅ **ESLint + Prettier** - 自動フォーマット・リント設定済み
+- 🧪 **Vitest + Testing Library** - 高速なユニットテスト
+- 📚 **Storybook 9** - コンポーネント開発環境
+- 🎣 **Lefthook** - Git hooks自動化（コミット前チェック）
+- 🐳 **Docker** - コンテナ化された開発環境
+- 🔍 **厳格なTypeScript設定** - 型安全な開発
+
+## クイックスタート
+
+### Dockerを使用する場合（推奨）
+
+```bash
+# コンテナ起動（初回はビルドに時間がかかります）
+docker-compose up
+
+# 開発サーバーが起動します
+# http://localhost:3000 でアクセス可能
+
+# Storybook起動（別ターミナル）
+docker-compose exec app pnpm storybook
+# http://localhost:6006 でアクセス可能
+```
+
+### ローカル環境で使用する場合
+
+```bash
+# パッケージインストール
+pnpm install
+
+# lefthook初期化（Git hooksを有効化）
+lefthook install
+
+# 開発サーバー起動
+pnpm dev
+
+# Storybook起動
+pnpm storybook
+```
 
 ## 技術スタック
 
-### フレームワーク・ライブラリ
+| カテゴリ                 | 技術                                  |
+| ------------------------ | ------------------------------------- |
+| **フレームワーク**       | Next.js 16, React 19, TypeScript 5    |
+| **スタイリング**         | TailwindCSS 4, PostCSS                |
+| **リント・フォーマット** | ESLint 9, Prettier 3                  |
+| **テスト**               | Vitest 4, Testing Library, Playwright |
+| **開発ツール**           | Storybook 9, Lefthook                 |
+| **コンテナ**             | Docker, pnpm                          |
 
-- **Next.js**: 16.0.0 (App Router)
-- **React**: 19.2.0
-- **TypeScript**: 5.x
-
-### スタイリング
-
-- **TailwindCSS**: 4.x
-- **PostCSS**: @tailwindcss/postcss
-
-### コード品質
-
-- **ESLint**: 9.x
-  - @typescript-eslint/eslint-plugin
-  - eslint-plugin-better-tailwindcss
-  - eslint-plugin-import
-  - eslint-plugin-react-hooks
-  - eslint-plugin-react-refresh
-  - eslint-plugin-unused-imports
-- **Prettier**: 3.6.2
-
-### テスト
-
-- **Vitest**: 4.0.3
-- **@testing-library/react**: 16.3.0
-- **@testing-library/dom**: 10.4.1
-- **jsdom**: 27.0.1
-
-### Git Hooks
-
-- **Lefthook**: Git hooksマネージャー
-
-### コンテナ化
-
-- **Docker**: node:20-alpine
-- **pnpm**: パッケージマネージャー
-
-## ディレクトリ構造
-
-```
-.
-├── app/                      # Next.js App Router
-│   ├── favicon.ico          # ファビコン
-│   ├── globals.css          # グローバルCSS
-│   ├── layout.tsx           # ルートレイアウト
-│   ├── page.tsx             # ホームページ
-│   ├── page.test.tsx        # ホームページのテスト
-│   └── page.stories.tsx     # Storybook
-├── public/                   # 静的ファイル
-│   ├── file.svg
-│   ├── globe.svg
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── window.svg
-├── .gitignore               # Git除外設定
-├── .prettierignore          # Prettier除外設定
-├── .prettierrc              # Prettier設定
-├── Dockerfile               # Dockerイメージ定義
-├── docker-compose.yml       # Docker Compose設定
-├── eslint.config.mjs        # ESLint設定
-├── global.d.ts              # グローバル型定義
-├── lefthook.yml             # Git hooks設定
-├── next-env.d.ts            # Next.js型定義
-├── next.config.ts           # Next.js設定
-├── package.json             # パッケージ定義
-├── postcss.config.mjs       # PostCSS設定
-├── tsconfig.json            # TypeScript設定
-├── vitest.config.mts        # Vitest設定
-└── vitest.setup.ts          # Vitestセットアップ
-```
-
-## 設定ファイル詳細
-
-### package.json
-
-#### スクリプト
-
-- `dev`: 開発サーバー起動
-- `build`: プロダクションビルド
-- `start`: プロダクションサーバー起動
-- `lint`: ESLintチェック（修正なし）
-- `lint:fix`: ESLintチェック＋自動修正
-- `format`: Prettierでフォーマット
-- `format:check`: Prettierチェック（修正なし）
-- `check-types`: TypeScript型チェック
-- `test`: Vitestでテスト実行
-
-### tsconfig.json
-
-主要な設定：
-
-- `strict: true`: 厳格な型チェック
-- `jsx: "react-jsx"`: React 19の新しいJSX変換
-- `paths: { "@/*": ["./*"] }`: パスエイリアス設定
-- `include`: グローバル型定義（global.d.ts）を含む
-
-### eslint.config.mjs
-
-#### 主要なルール
-
-**TypeScript**:
-
-- `@typescript-eslint/consistent-type-imports`: type importを強制
-- `@typescript-eslint/consistent-type-definitions`: typeを優先（interfaceではなく）
-- `@typescript-eslint/no-explicit-any`: any使用時に警告
-
-**Import管理**:
-
-- `unused-imports/no-unused-imports`: 未使用importを自動削除
-- `import/order`: importを自動整列
-  - Reactを最初
-  - builtin/external → internal → parent/sibling/index
-  - アルファベット順
-
-**TailwindCSS**:
-
-- `better-tailwindcss/enforce-consistent-class-order`: クラス順序を統一
-- `better-tailwindcss/no-duplicate-classes`: 重複クラスを検出
-- `better-tailwindcss/no-unregistered-classes`: 未登録クラスを検出
-
-### lefthook.yml
-
-#### pre-commit（コミット前）
-
-並列実行で高速化：
-
-- `format`: ステージングされたファイルをPrettierでフォーマット
-- `lint-fix`: ステージングされたファイルをESLintで自動修正
-- `stage_fixed: true`: 修正内容を自動でステージング
-
-#### pre-push（プッシュ前）
-
-- `format-check`: 全ファイルのフォーマットチェック
-- `lint-check`: 全ファイルのリントチェック
-- `type-check`: TypeScript型チェック
-
-#### commit-msg（コミットメッセージ）
-
-- コミットメッセージが `feat|fix|refactor|chore` で始まることを強制
-
-### vitest.config.mts
-
-- `environment: "jsdom"`: ブラウザ環境をシミュレート
-- `setupFiles: ["./vitest.setup.ts"]`: jest-dom matchers を使用可能に
-- `tsconfigPaths()`: tsconfig.jsonのパスエイリアスを認識
-- `react()`: React Fast Refreshサポート
-
-### Docker構成
-
-#### Dockerfile
-
-- ベースイメージ: node:20-alpine
-- git, pnpm, lefthookをインストール
-- ポート3000を公開
-
-#### docker-compose.yml
-
-- ボリュームマウント: ソースコードをリアルタイム反映
-- 起動コマンド: `pnpm install && lefthook install && pnpm dev`
-- ホットリロード対応: WATCHPACK_POLLING, CHOKIDAR_USEPOLLING
-
-## 開発フロー
-
-### 初回セットアップ
+## 利用可能なスクリプト
 
 ```bash
-# Dockerコンテナ起動
-docker-compose up -d
+# 開発
+pnpm dev              # 開発サーバー起動
+pnpm build            # プロダクションビルド
+pnpm start            # プロダクションサーバー起動
 
-# コンテナ内でlefthook初期化（自動実行される）
-# lefthook install
+# コード品質
+pnpm lint             # ESLintチェック
+pnpm lint:fix         # ESLint自動修正
+pnpm format           # Prettierフォーマット
+pnpm format:check     # Prettierチェック
+pnpm check-types      # TypeScript型チェック
+
+# テスト
+pnpm test             # ユニットテスト実行
+pnpm test:e2e         # E2Eテスト実行（Playwright）
+
+# Storybook
+pnpm storybook        # Storybook起動
+pnpm build-storybook  # Storybookビルド
 ```
 
-### 開発
+## 自動化されたコード品質チェック
 
-```bash
-# 開発サーバー起動（http://localhost:3000）
-docker-compose up
+### コミット前（pre-commit）
 
-# または、ホストマシンで
-pnpm dev
-```
+lefthookが以下を自動実行：
 
-### コミット前
+1. **Prettier** - 変更ファイルを自動フォーマット
+2. **ESLint** - 変更ファイルを自動修正（import整理、Tailwindクラス並び替え等）
+3. **コミットメッセージチェック** - `feat|fix|refactor|chore` で始まることを確認
 
-lefthookが自動実行：
+### プッシュ前（pre-push）
 
-1. Prettierで自動フォーマット
-2. ESLintで自動修正（import整理、Tailwindクラス並び替えなど）
-3. コミットメッセージの形式チェック
-
-### プッシュ前
-
-lefthookが自動実行：
+以下のチェックをすべて通過しないとpushできません：
 
 1. フォーマットチェック
 2. リントチェック
-3. 型チェック
+3. TypeScript型チェック
 
-すべて通過しないとpushできません。
+## コミットメッセージ規約
 
-### テスト
-
-```bash
-# テスト実行
-pnpm test
-
-# テストウォッチモード
-pnpm test -- --watch
-```
-
-## コード規約
-
-### コミットメッセージ
-
-必ず以下のプレフィックスで始める：
-
-- `feat:` 新機能追加
-- `fix:` バグ修正
-- `refactor:` リファクタリング
-- `chore:` ビルド、設定変更など
-
-例：
+以下のプレフィックスで始める必要があります：
 
 ```
-feat: ユーザー認証機能を追加
-fix: ログイン時のバリデーションエラーを修正
-refactor: API呼び出しロジックを整理
-chore: ESLint設定を更新
+feat: 新機能追加
+fix: バグ修正
+refactor: リファクタリング
+chore: ビルド、設定変更など
 ```
 
-### Import順序
+## プロジェクト構成
 
-ESLintが自動整列：
+```
+.
+├── app/                   # Next.js App Router
+│   ├── layout.tsx        # ルートレイアウト
+│   ├── page.tsx          # ホームページ
+│   ├── page.test.tsx     # テスト
+│   └── page.stories.tsx  # Storybook
+├── .storybook/           # Storybook設定
+├── public/               # 静的ファイル
+├── lefthook.yml          # Git hooks設定
+├── eslint.config.mjs     # ESLint設定
+├── vitest.config.mts     # Vitest設定
+├── tsconfig.json         # TypeScript設定
+├── Dockerfile            # Dockerイメージ定義
+└── docker-compose.yml    # Docker Compose設定
+```
 
-1. React関連
-2. builtin/external（Node.js組み込み、npm パッケージ）
-3. internal（プロジェクト内部モジュール）
-4. parent/sibling/index（相対パス）
+## 開発環境
 
-各グループ間に空行、アルファベット順。
+### ESLintの自動修正機能
 
-### TailwindCSSクラス
-
-ESLintが自動整列：
-
-- 一貫した順序（improved order）
-- 重複クラスは自動削除
-- 未登録クラスは警告
+- **未使用import削除** - 自動的に削除されます
+- **import順序整列** - React → external → internal → relative の順に自動整列
+- **TailwindCSSクラス整列** - 統一された順序に自動整列
+- **型import** - `import type` を強制
 
 ### TypeScript
 
-- `type` を優先（`interface` ではなく）
-- type importは `import type` を使用
-- `any` は警告（極力避ける）
+- `type` を優先（`interface` は使用しない）
+- `any` の使用は警告
+- 厳格な型チェック有効
 
 ## トラブルシューティング
 
 ### lefthookが動作しない
 
 ```bash
-# Docker内で実行する場合
+# Docker内の場合
 docker-compose exec app lefthook install
 
-# ホストで実行する場合
+# ローカルの場合
 lefthook install
 ```
 
-### 型エラー: Cannot find module '\*.css'
+### Git認証エラー（GitHub）
 
-`global.d.ts` に型定義を追加：
-
-```typescript
-declare module "*.css";
-```
-
----
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+HTTPSではなくSSH認証に変更：
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git remote set-url origin git@github.com:273Do/my-nextjs-template.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### ポートが使用中
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+開発サーバー（3000）やStorybook（6006）のポートが使用中の場合：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# プロセス確認
+lsof -i :3000
+lsof -i :6006
 
-## Learn More
+# または別ポートで起動
+pnpm dev -- -p 3001
+pnpm storybook -- -p 6007
+```
 
-To learn more about Next.js, take a look at the following resources:
+## ライセンス
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+MIT
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 参考リンク
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
+- [Vitest Documentation](https://vitest.dev/)
+- [Storybook Documentation](https://storybook.js.org/docs)
