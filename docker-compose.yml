@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs-template
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code
+      - .:/app
+      # Exclude node_modules and .next from host (use container's version)
+      - /app/node_modules
+      - /app/.next
+      # Cache pnpm store for faster rebuilds
+      - pnpm-store:/root/.local/share/pnpm/store
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "pnpm install && pnpm dev"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+volumes:
+  pnpm-store:
