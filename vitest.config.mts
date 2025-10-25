@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { playwright } from "@vitest/browser-playwright";
 
 const dirname =
   typeof __dirname !== "undefined"
@@ -27,15 +28,13 @@ export default defineConfig({
         ],
         test: {
           name: "storybook",
-          browser: {
-            enabled: true,
-            headless: true,
-            instances: [
-              {
-                browser: "chromium",
-              },
-            ],
-          },
+          // browser: {
+          //   enabled: true,
+          //   headless: true,
+          //   name: "chromium",
+          //   provider: "playwright",
+          // },
+          environment: "jsdom",
           setupFiles: [".storybook/vitest.setup.ts"],
         },
       },
