@@ -14,12 +14,12 @@ pre-commit:
 
     lint:
       glob: "*.{ts,tsx,js,jsx}"
-      run: pnpm run lint
+      run: pnpm run lint:fix
 
 pre-push:
   commands:
     format-check:
-      run: pnpm run format
+      run: pnpm run format:check
 
     lint-check:
       run: pnpm run lint
