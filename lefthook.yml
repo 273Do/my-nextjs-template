@@ -9,7 +9,7 @@ pre-commit:
   commands:
     format:
       glob: "*.{ts,tsx,js,jsx,json,css}"
-      run: prettier --write {staged_files}
+      run: pnpm run format
       stage_fixed: true
 
     lint:
@@ -24,10 +24,10 @@ pre-commit:
 pre-push:
   commands:
     format-check:
-      run: prettier --check .
+      run: pnpm run format
 
     lint-check:
-      run: npm run lint
+      run: pnpm run lint
 
     type-check:
       run: tsc --noEmit

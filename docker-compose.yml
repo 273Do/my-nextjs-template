@@ -19,7 +19,7 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
-    command: sh -c "pnpm install && pnpm dev"
+    command: sh -c "pnpm install && lefthook install && pnpm dev"
     stdin_open: true
     tty: true
     restart: unless-stopped
