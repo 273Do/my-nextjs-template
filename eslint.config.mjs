@@ -148,8 +148,6 @@ const eslintConfig = defineConfig([
     ".storybook/**",
     "storybook-static/**",
   ]),
-  // Prettierと競合するESLintルールを無効化
-  // eslintConfigPrettier,
 ]);
 
 export default eslintConfig;
