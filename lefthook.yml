@@ -27,6 +27,9 @@ pre-push:
     type-check:
       run: pnpm run check-types
 
+    test:
+      run: pnpm run test
+
 commit-msg:
   commands:
     message-check:
