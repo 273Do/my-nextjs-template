@@ -14,12 +14,7 @@ pre-commit:
 
     lint:
       glob: "*.{ts,tsx,js,jsx}"
-      run: eslint {staged_files}
-
-    fix:
-      glob: "*.{ts,tsx,js,jsx}"
-      run: eslint --fix {staged_files}
-      stage_fixed: true
+      run: pnpm run lint
 
 pre-push:
   commands:
