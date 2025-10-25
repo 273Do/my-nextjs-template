@@ -25,7 +25,7 @@ pre-push:
       run: pnpm run lint
 
     type-check:
-      run: tsc --noEmit
+      run: pnpm run check-types
 
 commit-msg:
   commands:
