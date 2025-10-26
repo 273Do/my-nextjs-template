@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh-client
 
 RUN corepack enable && \
   corepack prepare pnpm@latest --activate

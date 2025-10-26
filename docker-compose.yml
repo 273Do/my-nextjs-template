@@ -15,6 +15,9 @@ services:
       - /app/.next
       # Cache pnpm store for faster rebuilds
       - pnpm-store:/root/.local/share/pnpm/store
+      # Mount SSH keys for git operations
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa:ro
+      - ~/.gitconfig:/root/.gitconfig:ro
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
