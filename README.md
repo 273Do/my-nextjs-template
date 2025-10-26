@@ -27,7 +27,15 @@ docker-compose up
 # Storybook起動（別ターミナル）
 docker-compose exec app pnpm storybook
 # http://localhost:6006 でアクセス可能
+
+# コンテナ内でGit操作も可能
+docker-compose exec app git status
+docker-compose exec app git add .
+docker-compose exec app git commit -m "feat: 新機能追加"
+docker-compose exec app git push
 ```
+
+**注意**: コンテナ内でGit操作を行う場合、ホストの `~/.ssh` と `~/.gitconfig` がマウントされます。SSH認証を使用してください。
 
 ### ローカル環境で使用する場合
 
@@ -128,6 +136,17 @@ chore: ビルド、設定変更など
 └── docker-compose.yml    # Docker Compose設定
 ```
 
+### Docker構成の詳細
+
+- **ベースイメージ**: node:20-alpine
+- **インストール済み**: git, openssh-client, pnpm, lefthook
+- **ポート**: 3000 (Next.js), 6006 (Storybook)
+- **マウント**:
+  - ソースコード: `.:/app`
+  - SSHキー: `~/.ssh/id_rsa:/root/.ssh/id_rsa:ro` (Git操作用)
+  - Git設定: `~/.gitconfig:/root/.gitconfig:ro` (ユーザー情報)
+  - pnpmキャッシュ: ボリュームで永続化
+
 ## 開発環境
 
 ### ESLintの自動修正機能
@@ -157,11 +176,39 @@ lefthook install
 
 ### Git認証エラー（GitHub）
 
-HTTPSではなくSSH認証に変更：
+**Docker内でGit操作する場合**:
 
-```bash
-git remote set-url origin git@github.com:273Do/my-nextjs-template.git
-```
+1. **SSH認証を使用**（推奨）:
+   ```bash
+   # リモートURLをSSHに変更
+   git remote set-url origin git@github.com:USERNAME/REPO.git
+
+   # SSHキーがホストに設定済みであれば、コンテナでも使用可能
+   docker-compose exec app git push
+   ```
+
+2. **SSHキーの設定確認**:
+   ```bash
+   # ホストでSSHキーが存在するか確認
+   ls -la ~/.ssh/id_rsa
+
+   # GitHubにSSHキーが登録されているか確認
+   ssh -T git@github.com
+   ```
+
+3. **SSHキーの作成**（未作成の場合）:
+   ```bash
+   # ホストマシンで実行
+   ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+   # 公開鍵をGitHubに登録
+   cat ~/.ssh/id_rsa.pub
+   # https://github.com/settings/keys で登録
+   ```
+
+**ローカル環境の場合**:
+
+HTTPS認証は非推奨のため、SSH認証に変更してください。
 
 ### ポートが使用中
 
