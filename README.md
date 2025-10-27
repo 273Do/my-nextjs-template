@@ -15,43 +15,39 @@
 
 ## クイックスタート
 
-### Dockerを使用する場合（推奨）
-
 ```bash
+
+# 依存関係をホストにインストール(vscodeなどのエラー表示が適切に動作します)
+# pnpm install
+
+# lefthookを動作させるためgit initをしておく
+# git init
+
+# イメージをビルド
+docker compose build
+
 # コンテナ起動（初回はビルドに時間がかかります）
-docker-compose up
+docker compose up
 
 # 開発サーバーが起動します
 # http://localhost:3000 でアクセス可能
 
+# コンテナに入ります
+docker compose exec -it app sh
+
 # Storybook起動（別ターミナル）
-docker-compose exec app pnpm storybook
+pnpm storybook
 # http://localhost:6006 でアクセス可能
 
 # コンテナ内でGit操作も可能
-docker-compose exec app git status
-docker-compose exec app git add .
-docker-compose exec app git commit -m "feat: 新機能追加"
-docker-compose exec app git push
+git status
+git add 
+git commit -m "feat: 新機能追加"
+git push
 ```
 
 **注意**: コンテナ内でGit操作を行う場合、ホストの `~/.ssh` と `~/.gitconfig` がマウントされます。SSH認証を使用してください。
 
-### ローカル環境で使用する場合
-
-```bash
-# パッケージインストール
-pnpm install
-
-# lefthook初期化（Git hooksを有効化）
-lefthook install
-
-# 開発サーバー起動
-pnpm dev
-
-# Storybook起動
-pnpm storybook
-```
 
 ## 技術スタック
 
@@ -168,7 +164,7 @@ chore: ビルド、設定変更など
 
 ```bash
 # Docker内の場合
-docker-compose exec app lefthook install
+docker compose exec app lefthook install
 
 # ローカルの場合
 lefthook install
@@ -206,23 +202,6 @@ lefthook install
    # https://github.com/settings/keys で登録
    ```
 
-**ローカル環境の場合**:
-
-HTTPS認証は非推奨のため、SSH認証に変更してください。
-
-### ポートが使用中
-
-開発サーバー（3000）やStorybook（6006）のポートが使用中の場合：
-
-```bash
-# プロセス確認
-lsof -i :3000
-lsof -i :6006
-
-# または別ポートで起動
-pnpm dev -- -p 3001
-pnpm storybook -- -p 6007
-```
 
 ## ライセンス
 
